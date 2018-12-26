@@ -1,0 +1,26 @@
+body{font-size:14px;}
+input,textarea{
+	width: 100%;
+    margin-bottom: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+    padding:1em;
+}
+textarea{height:10em;}
+
+.hidden{display:none;}
+#biographyForm textarea{width:400px; height:200px;}
+.content{
+	padding:0 5em;
+}
+
+#output{
+	margin-top:3em;
+}
+.block{
+	margin-bottom:3em;
+	background: rgba(38,194,135,0.5);
+    border-radius: 5px;
+    padding: 3em;
+}
