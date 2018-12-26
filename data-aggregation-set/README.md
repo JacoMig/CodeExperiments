@@ -1,4 +1,5 @@
 ## Data set aggregation
+### Small application on how to manage a data-set of items (array of objects) using ES6
 #### To run the application
 * npm install
 * npm start
