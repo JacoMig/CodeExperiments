@@ -1,5 +1,10 @@
 ## Data set aggregation
+#### To run the application
+* npm install
+* npm start
+* open up the browser and call the page http://localhost:8000
 
+#### About the application
 Given an ordered set of data in the following format:
 
 ```javascript
@@ -14,7 +19,7 @@ Given an ordered set of data in the following format:
 ]
 ```
 
-Write a method named `select`. `select` is used to return items from this set.
+A function named `select` is used to return items from this set.
 It has the interface `select(dataSet [, options])`. The options available should include:
 
 - `id`: get just the items with this id
@@ -25,10 +30,6 @@ It has the interface `select(dataSet [, options])`. The options available should
         - sum the `playTime` fields
         - if any of the `auto` fields are `false` the result should be `false`
     - The other filter options should be applied to the merged data
-
-The order of the results should always remain unchanged from the original set, and in the case of merging items with
-duplicate ids, the row should take the place of the latest occurrence of that id. The input objects should not be
-modified.
 
 For example, given the set above...:
 
@@ -79,10 +80,6 @@ select(items, { merge: true, minPlayTime: 4000 })
 */
 ```
 
-A larger data set is provided in `sample-data.json`.
+The data set has to be found in `sample-data.json`.
 
-### Notes
-
-- The solution will be judged on correctness, clarity and efficiency.
-- Please include some tests which can be run to validate your solution.
-- We expect this should take roughly one hour.
+#### The application has a small forntend interface to let the user test it more easily!
