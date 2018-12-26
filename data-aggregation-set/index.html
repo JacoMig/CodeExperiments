@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Aggregate</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="/css/styles.css" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+		<form id="formData">
+			<div>
+				<label for="id" class="col-4">ID</label>
+				<input name="id" type="number" class="col-3"></input> 
+			</div>
+			<div>
+				<label for="minPlayTime" class="col-4">Min Play Time</label>
+				<input name="minPlayTime" type="number" class="col-3"></input> 
+			</div>
+			<div>
+				<label for="auto" class="col-4">Auto</label>
+				<select id="auto" class="col-3">
+					<option value="">-- ALL --</option>
+					<option value="true">TRUE</option>
+					<option value="false">FALSE</option>
+				</select>
+			</div>
+			<div>
+				<label for="merge" class="col-4">Merge</label>
+				<input type="checkbox" name="merge" class="col-3"></input>
+			</div>
+			<input type="submit" class="text-center"></input>
+		</form>
+		<div id="Result">
+			<code class="print_code"></code>
+		</div>
+	</div>
+<script src="js/script.js"></script>
+</body>
+</html>
