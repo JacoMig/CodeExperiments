@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GitHub Fetch</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h3 class="title">Fetch Users from GitHub</h3>
+	<div class="container">
+		<div class="UsersList">
+			<div class="form">
+				<div class="fieldset">
+					<div>
+						<label>List up to 100 Users</label>
+						<input type="number" name="numberOfUsers" value="10" class="users__number">
+					</div>
+					<div>
+						<label>or Type a user name</label>
+						<input type="text" name="singleUser" value="" placeholder="Type a user name" class="user__name">
+					</div>
+				</div>
+				<!-- <ul class="suggestions"></ul> -->
+				<button class="print"><div class="btn-icon"></div></button>
+			</div>
+			<div class="containerUsers">
+				<div class="preloader">
+					<div class="dot"></div>
+					<div class="dot"></div>
+					<div class="dot"></div>
+					<div class="dot"></div>
+					<div class="dot"></div>
+				</div>
+				<ul></ul>
+			</div>
+		</div>
+		<!-- <div class="UserDetail">
+			<canvas id="myChart" width="640"></canvas>
+		</div> -->
+	</div>
+<script type="text/javascript" src="script.js"></script>
+</body>
+</html>
