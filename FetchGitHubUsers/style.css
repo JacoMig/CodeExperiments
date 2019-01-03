@@ -206,7 +206,7 @@ button{
     flex-basis:2%;
     display: flex;
     justify-content: center;
-    align-content:center;
+    align-items:center;
 }
 
 button:hover{
