@@ -1,5 +1,4 @@
-const token = "ea6adc06e43890c9dd379ca6e419ae20275197d2";
-const endpoint = `https://api.github.com/users?access_token=${token}`;
+const endpoint = `https://api.github.com/users`;
 let arrayOfUsers = [];
 let isSingle = false;
 const buttonPrint = document.querySelector('.print');
@@ -11,7 +10,7 @@ const preloaderDots = document.querySelectorAll('.dot');
 const ctx = canvas.getContext('2d');*/
 
 async function fetchUsers (users){
-	const api_call = await fetch(`${endpoint}&per_page=${users}`);
+	const api_call = await fetch(`${endpoint}?per_page=${users}`);
 	const data = await api_call.json();
 	
 	return data;	
@@ -28,7 +27,7 @@ async function showUsers(){
 	if(!isSingle){
 		await fetchUsers(inputNumbers.value).then(data => arrayOfUsers.push(...data))
 		const promises = arrayOfUsers.map(async user => {
-			const response = await fetch(`https://api.github.com/users/${user.login}?access_token=${token}`)
+			const response = await fetch(`https://api.github.com/users/${user.login}`)
 			const users = await response.json()
 			return users
 		})
