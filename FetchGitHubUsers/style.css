@@ -79,13 +79,13 @@ input:placeholder{
 	color: #ddd;	
 }
 
-.user__name:after{
+/*.user__name:after{
     content: 'x';
     position: absolute;
     font-size: 1em;
     color:black;
     float: right;
-}
+}*/
 
 .users__number{
 	width:20%;
