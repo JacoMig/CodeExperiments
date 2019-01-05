@@ -266,3 +266,13 @@ button:active,button:focus,button:hover{
     100% {  opacity:0; background:aqua;  transform: rotateZ(-400deg); }
 }
 
+@media (max-width: 600px){
+	.fieldset{flex-flow: wrap;}
+	.fieldset > div{
+		margin-bottom: 2em
+	}
+	.fieldset > div label{
+		width:100%;
+		display: block;
+	}
+}
