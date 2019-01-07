@@ -1,97 +1,87 @@
 let tasks = [];
-let showTasks = [];
+let tasks_to_show = [];
 class Results extends React.Component{
 	constructor(){
 		super();
 	}
-	handleCheckBoxes(){
-		this.props.checkTask(this.props.task,this.props.index);
+	updateTasks(action){
+		this.props.update_tasks(this.props.id, action)
 	}
-	
 	render(){
-		return<li key={this.props.index}><input type="checkbox" checked={this.props.checked} ref={(input) => this._input = input} value={this.props.task} onChange={this.handleCheckBoxes.bind(this)} />{this.props.task}</li>;
-		
-		
-		
+		return<li key={this.props.id}>
+				<input type="checkbox" checked={this.props.checked} id={`task#${this.props.id}`} onChange={() => this.updateTasks('check') } />
+				<label htmlFor={`task#${this.props.id}`}>{this.props.task_content}</label>
+				<span onClick={() => this.updateTasks('delete') } className="delete_task"></span>
+			</li>;
 	}
 }
-
 
 
 class Wrapper extends React.Component{
     constructor() {
      super();
-     this.state={showAll : true}
+     this.state={showState : 'all', id : 0, message: 'No tasks added!', classMessage : 'visible'}
     }
-	handleChange(e) {
-		//this.setState({ inputValue: e.target.value});
-	}
+	
 	handleSubmit(event) {
 		event.preventDefault();
-		if(this._task.value != ""){
-			tasks.push({task : this._task.value, completed : false})
-		if(this.state.showAll){
-			showTasks = tasks;	
-		}
-		this.forceUpdate();
-		}
-		
-		
-	}
-
-	addCheckedTasks(task, index){
-		if(this.state.showAll)
-		tasks[index].completed ?  tasks[index].completed = false : tasks[index].completed = true
-		else
-		showTasks[index].completed ?  showTasks[index].completed = false : showTasks[index].completed = true
-		this.forceUpdate();
-		console.log(showTasks) 
-	}
-
-	showAll(){
-		this.setState({showAll : true});
-		showTasks = tasks;	
-	}
-
-	showCompleted(){
-		showTasks = tasks.filter((task) => 
-		   task.completed
-		);
-		this.setState({showAll : false});
-	}
-	showNotCompleted(){
-		showTasks = tasks.filter((task) =>
-			!task.completed
+		if(event.keyCode === 13 || event.target.tagName !== "INPUT"){
+			this.setState((state) => {id : state.id++ })
+			if(this._task.value != ""){
+				tasks.push({id: this.state.id, task : this._task.value, completed : false})
 			
-		);
-		this.setState({showAll : false});
-		//this.forceUpdate();
-		console.log(showTasks)
-		
+				this.showTasks('all')
+			}	
+		}
 	}
 
+	updateTasks(id, action){
+		if(action === 'check'){
+			const taskIndex = tasks.findIndex(task => task.id === id)
+			tasks[taskIndex].completed = !tasks[taskIndex].completed	
+			this.forceUpdate()
+		}else if(action === 'delete'){
+			const taskIndex = tasks.findIndex(task => task.id === id)
+			tasks.splice(taskIndex,1);
+			this.showTasks(this.state.showState)
+		}
+	}
+	
+	showTasks(taskState){
+		let message = '';
+		if(taskState === "completed"){
+			tasks_to_show = tasks.filter((task) => task.completed);
+			message = 'No completed tasks!';
+		}else if(taskState === "not completed"){
+			tasks_to_show = tasks.filter((task) => !task.completed);
+			message = 'No tasks has to be done!';
+		}else if(taskState === "all"){
+			tasks_to_show = tasks;
+			message = 'No tasks added!';
+		}
+		tasks_to_show.length === 0 ? this.setState({message : message, classMessage : 'visible'}) : this.setState({message : message, classMessage : 'hidden'})	
+		this.setState({showState : taskState});
+	}
+	
 	render(){
 		return <div className="Wrapper">
-				<h2>Things to do</h2>
-				<div>
-					<form>
-						<input id="inputTask" type="text" placeholder="Add a task"  ref={(input) => this._task = input} />
-						<button href="#" onClick={this.handleSubmit.bind(this)}>+</button>
-					</form>
-				</div>
-				<div className="tasks-list">
-					<ul>{showTasks.map((value,index) => <Results show={this.state.showAll} checked={value.completed} checkTask={this.addCheckedTasks.bind(this)} task={value.task} index={index} /> )}</ul>
+				<h2>To do list</h2>
+				<div className="form">
+					<input id="inputTask" type="text" placeholder="Add a task" onKeyUp={this.handleSubmit.bind(this)}  ref={(input) => this._task = input} />
+					<button className="__add_task" onClick={this.handleSubmit.bind(this)}>+</button>
 				</div>
 				<div className="buttons">
-					<button onClick={this.showCompleted.bind(this)}>show completed</button>
-					<button onClick={this.showNotCompleted.bind(this)}>show not completed</button>
-					<button onClick={this.showAll.bind(this)}>show All</button>
+					<button className="__completed" onClick={() => this.showTasks('completed')}>Completed</button>
+					<button className="__not_completed" onClick={() => this.showTasks('not completed')}>Not completed</button>
+					<button className="__all" onClick={() => this.showTasks('all')}>All</button>
+				</div>
+				<div className="tasks-list">
+					<h3 className={`message ${this.state.classMessage}`}>{this.state.message}</h3>
+					<ul>{tasks_to_show.map((item,index) => <Results key={item.id} checked={item.completed} update_tasks={this.updateTasks.bind(this)} task_content={item.task} id={item.id} /> )}</ul>
 				</div>
 			</div>
 	}
 
 }
-
-
 
 ReactDOM.render(<Wrapper />, document.getElementById('root'));
