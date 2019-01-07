@@ -1,7 +1,8 @@
 # React
-### Two small apllication made with React
+### Two apllications made with React
 #### A commenst feed app
-* You can write, delete a comment and it shows up in a list
+* To run the application on local you need a server like <code>npm live-server</code>. Download the folders then run: <code> live-server</code>
+* You can write, delete comments and show them up in a list.
 
 #### A To do's app
 * To run the application on local you need a server like <code>npm live-server</code>. Download the folders then run: <code> live-server</code>
