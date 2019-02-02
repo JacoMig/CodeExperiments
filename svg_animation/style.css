@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css?family=Staatliches');
+*,*:before,*:after{
+	margin:0;
+	padding:0;
+}
+
+body{
+	font-family: 'Staatliches';
+	font-size: 14px;
+	background: black;
+}
+
+.container{
+	margin:0 auto;
+}
+
+.container > div{
+	position: relative;
+}
+
+.text {
+	position: relative;
+	color:white;
+	margin:0;
+	font-size: 5em;
+	/*clip-path:url(#Mask);*/
+}
+
+.letter{
+	transform: perspective(600px);
+	transition: transform 0.4s cubic-bezier(.15,1.76,1,.47);
+	position: relative;
+}	
+.letter > div{
+	position: absolute;
+	/*backface-visibility: hidden;*/
+	/*transition-timing-function: cubic-bezier(.15,1.76,1,.47)*/
+}
+.letter > div:after{
+	content: attr(data-text);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    color: white;
+    mix-blend-mode: lighten;
+    clip: rect(30px,34px,54px,-1px);
+    opacity: 0;
+}
+
+.changetext .letter .front-side{
+	color: black;
+	/*filter: blur(3px);*/
+	opacity:0;
+	transition-property: color, opacity;
+	transition-duration:  .2s /*color*/, .2s /*opacity*/;
+  	transition-delay:  0s, .4s;
+	/*transform: rotateY(-90deg);*/
+}
+
+
+.front-side:after{
+	animation: noiseTextA 0.8s ease-in-out infinite;
+}
+
+.front-side{
+	/*filter: blur(0);*/
+	/*transform: rotateY(0deg);*/
+}
+.back-side{
+	/*transform: rotateY(-180deg);*/
+	filter: blur(1px);
+	color:black;
+	visibility: hidden;
+	transition: color 0.1s, filter 0.1s;
+}
+
+.back-side:after{
+	animation: noiseTextB 1s ease-in-out forwards;
+	animation-delay: 1s;
+	color:white;
+}
+
+.changetext .letter .back-side{
+	color: white;
+	visibility: visible;
+	filter: blur(0px);
+	/*transition-property: filter;
+	transition-duration: .15s;
+  	transition-delay: 0.2s;*/
+ }
+
+
+@keyframes noiseTextA{
+	2%{opacity: 1; left:2px; top:2px;}
+	5%{left:-4px; top:1px;}
+	8%{left:1px; top:-1px;}
+	12%{clip: rect(30px,34px,54px,-1px); left:-4px; top:0px;}
+	14%{clip: rect(28px,20px,20px,10px); left:-4px; top:0px;}
+	18%{clip: rect(40px,45px,20px,10px); left:0px; top:15px;}
+	20%{opacity: 0; clip: rect(60px,80px,70px,-10px); left:6px; top:0px;}
+	21%{opacity: 1; clip: rect(60px,80px,70px,-10px); left:6px; top:0px;}
+	25%{opacity: 1; clip: rect(15px,80px,30px,0px); left:0px; top:0px;}
+	28%{clip: rect(60px,80px,70px,-10px); left:0px; top:0px;}
+	30%{left:3px; top:2px;}
+	33%{left:1px; top:-1px;}
+	35%{left:-3px; top:5px;}
+	38%{left:3px; top:5px;}
+	40%{left:-1px; top:0px;}
+	45%{left:6px; top:0px;}
+	47%{left:0px; top:0px;}
+	50%{clip: rect(30px,34px,54px,-1px); left:-4px; top:0px;}
+	55%{clip: rect(28px,20px,20px,10px); left:-4px; top:0px;}
+	60%{clip: rect(40px,45px,20px,10px); left:0px; top:15px;}
+}
+
+@keyframes noiseTextB{
+	2%{opacity: 1; left:2px; top:2px;}
+	5%{left:-4px; top:1px;}
+	8%{left:1px; top:-1px;}
+	10%{clip: rect(12px,10px,20px,-10px); left:-4px; top:0px;}
+	15%{clip: rect(28px,20px,20px,10px); left:-4px; top:0px;}
+	20%{clip: rect(40px,45px,20px,10px); left:0px; top:15px; opacity: 1;}
+	25%{opacity: 0; clip: rect(60px,80px,70px,-10px); left:6px; top:0px;}
+	30%{opacity: 1; clip: rect(60px,80px,70px,-10px); left:6px; top:0px;}
+	35%{opacity: 1; clip: rect(5px,40px,30px,0px); left:0px; top:0px;}
+	40%{clip: rect(40px,60px,50px,-20px); left:0px; top:0px;}
+	45%{left:3px; top:2px;clip: rect(60px,80px,70px,-10px);}
+	50%{left:1px; top:-1px;clip: rect(40px,60px,50px,-20px);}
+	55%{left:-3px; top:5px;clip: rect(15px,80px,30px,0px);}
+	60%{left:3px; top:5px;clip: rect(60px,80px,70px,-10px);}	
+	65%{left:-1px; top:0px;clip: rect(15px,80px,30px,0px);}
+	70%{left:6px; top:5px;clip: rect(40px,45px,20px,10px);}
+	72%{left:2px; top:-1px;}
+	75%{left:-3px; top:7px;}
+	75%{left:5px; top:1px;}
+	80%{clip: rect(30px,34px,54px,-1px); left:-4px; top:0px;}
+	85%{clip: rect(28px,20px,20px,10px); left:-4px; top:10px;}
+	100%{clip: rect(40px,45px,20px,10px); left:0px; top:15px;}
+}
+
+/*#F:after{
+	content: attr(data-text);
+	float:left;
+	font-size:5em;
+	color:white;
+}*/
+
+.square{
+	width:50px;
+	height:50px;
+	background-color: red;
+}
+
+.back{
+	opacity: 0;
+	visibility: hidden;
+}
+
+.strokes{
+	position: absolute;
+	clip: rect(0,314px,154px,0);
+	mix-blend-mode: difference;
+}
+
+.strokes line:nth-child(1){
+	/*animation:move 0.3s ease infinite;*/
+}
+.strokes line:nth-child(2){
+	/*animation:move 0.6s ease-in-out infinite;*/
+}
+
+@keyframes move{
+	from{
+		
+		stroke-dasharray: 1;
+		stroke-dashoffset:6;
+	}
+	to{
+
+		stroke-dasharray: 6;
+		stroke-dashoffset:10;
+	}
+}
