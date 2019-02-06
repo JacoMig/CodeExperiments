@@ -1,7 +1,10 @@
 # React
-### Two small apllication made with React
+### Two apllications made with React
 #### A commenst feed app
-* You can write, delete a comment and it shows up in a list
+* To run the application on local you need a server like <code>npm live-server</code>. Download the folders then run: <code> live-server</code>
+* You can write, delete comments and show them up in a list.
 
-#### A Classical To do's List app
-* Typical as functionalities but customized by myself in terms of code.
+#### A To do's app
+* To run the application on local you need a server like <code>npm live-server</code>. Download the folders then run: <code> live-server</code>
+* Add tasks on your list, check them, delete them, show the completed, not completed or all tasks. 
+* You can also see the application on codepen https://codepen.io/jaco1981/pen/PXeRdQ  
