@@ -26,6 +26,10 @@ ReactDom.render(Div, document.getElementById('root'));
 }
 setInterval(tick, 1000); */
 
+
+///////////////////////////////////////////////////////////////////////////
+
+
 // COMPONENT
 // A Component a JS Function that return something
 // You can pass to the component some arguments called props
@@ -66,6 +70,9 @@ function App(){
 ReactDom.render(<App />, document.getElementById('root')); */
 
 
+///////////////////////////////////////////////////////////////////////////
+
+
 // CLOCK COMPONENT
 /* class Clock extends Component{
     constructor(props){
@@ -92,6 +99,10 @@ ReactDom.render(<App />, document.getElementById('root')); */
 
 ReactDom.render(<Clock />, document.getElementById('root'));
  */
+
+
+/////////////////////////////////////////////////////////////////////////// 
+
 
 // EVENT HANDLERS
 /*
@@ -128,6 +139,10 @@ class ButtonClickEvent extends Component{
 
 ReactDom.render(<ButtonClickEvent />, document.getElementById('root'));
 */
+
+
+///////////////////////////////////////////////////////////////////////////
+
 
 // CONDITIONAL RENDERING
 /* function LogInButton(props){
@@ -186,6 +201,8 @@ class LoginControl extends Component{
 
 ReactDom.render(<LoginControl />, document.getElementById('root')); */
 
+///////////////////////////////////////////////////////////////////////////
+
 // LIST and KEYS
 /* function ListItems(props){
     const items = props.numbers;
@@ -198,8 +215,7 @@ const Numbers = [1,2,3,4,5,6];
 ReactDom.render( <ListItems numbers={Numbers} />, document.getElementById('root'));
  */
 
-
- // Keys can be Ids of the item, in case you dont have stable ids then use Index of the item
+// Keys can be Ids of the item, in case you dont have stable ids then use Index of the item
 /* function Items(props){
     return <li>
         {props.item}
@@ -215,6 +231,9 @@ function NumbersList(){
 }
 
 ReactDom.render( <NumbersList />, document.getElementById('root'));  */
+
+
+///////////////////////////////////////////////////////////////////////////
 
 
 // Two different List of items in the same Component
@@ -235,6 +254,8 @@ const posts = [
 
 ReactDom.render( <Blog posts={posts}/>, document.getElementById('root')); */
 
+
+///////////////////////////////////////////////////////////////////////////
 
  // FORMS
  // INPUT, TEXTAREA and SELECT Tag all works very simliar in React
@@ -290,30 +311,125 @@ ReactDom.render( <Blog posts={posts}/>, document.getElementById('root')); */
 
  ReactDom.render( <Form />, document.getElementById('root'));  */
 
- // Exercise create Two Compnent form. 
+
+///////////////////////////////////////////////////////////////////////////
+
+ // Exercise create Two Component form. 
  // The two Components refer at the same time to the same data
- function BoilingVerdict(props){
+ // Lifting State Up Practice, little complicated for now
+/* const scales = {
+    c : "celsius",
+    f : "fahrenheit"
+}
+
+function toCelsius(fahrenheit) {
+    return (fahrenheit - 32) * 5 / 9;
+}
+
+function toFahrenheit(celsius) {
+    return (celsius * 9 / 5) + 32;
+}
+
+function tryConvert(temperature, convert) {
+    const input = parseFloat(temperature);
+    if (Number.isNaN(input)) {
+      return '';
+    }
+    const output = convert(input);
+    const rounded = Math.round(output * 1000) / 1000;
+    return rounded.toString();
+}
+
+function BoilingVerdict(props){
     const temperature = props.temp;
     let result = temperature >= 100 ? "The water would boil" : "The water would not boil";
     return <h2>{result}</h2>
 }
 
-class TempCalculator extends Component {
-    constructor(){
-        super();
-        this.state = { tempValue: 0 }
-        this.checkTemp = this.checkTemp.bind(this);    
+class TemperaturInput extends Component{
+    constructor(props){
+        super(props);
+        this.handleChange = this.handleChange.bind(this);    
     }
-    checkTemp(e){
-       this.setState({ tempValue : e.target.value })
+    handleChange(e){
+      this.props.onTemperaturChange(e.target.value);
     }
     render(){
-        return <fieldset>
-            <legend>Enter temperature in Celsius</legend>
-            <input type="number" value={this.state.tempValue} onChange={this.checkTemp} />
-            <BoilingVerdict temp={this.state.tempValue} />
+        const temperature = this.props.temperature;
+        return  <fieldset>
+            <legend>Enter temperature in {scales[this.props.scale]}</legend>
+            <input type="number" value={temperature} onChange={this.handleChange} />
         </fieldset>
     }
 }
 
-ReactDom.render( <TempCalculator />, document.getElementById('root'));
+
+class TempCalculator extends Component {
+    constructor(props){
+        super(props);
+        this.state = {temperature: '', scale: 'c'};
+        this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+        this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+    }
+    handleCelsiusChange(temperature) {
+        this.setState({scale: 'c', temperature});
+    }
+    handleFahrenheitChange(temperature) {
+        this.setState({scale: 'f', temperature});
+    }
+    render(){
+        const scale = this.state.scale;
+        const temperature = this.state.temperature;
+        const celsiusTemperature = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
+        const fahrenheitTemperature = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
+        return <div>
+            <TemperaturInput scale="c" temperature={celsiusTemperature} onTemperaturChange={this.handleCelsiusChange}/>
+            <TemperaturInput scale="f" temperature={fahrenheitTemperature} onTemperaturChange={this.handleFahrenheitChange} />
+            <BoilingVerdict temp={celsiusTemperature} />
+            </div>
+        
+    }
+}
+
+ReactDom.render( <TempCalculator />, document.getElementById('root')); */
+
+///////////////////////////////////////////////////////////////////////////
+
+
+
+// Another Lifting State Up Exercise
+// The main Component CounterContainer handles the click event and pass the props to the child
+class ClickCounter extends Component{
+    constructor(props){
+        super(props);
+    }
+    render(){
+        const count = this.props.count;
+        const onClickCounting = this.props.onClickCounting;
+        return <div>
+            <p>You have clicked {count} times</p>
+            <button onClick={onClickCounting}>Click to increment</button>
+        </div>
+    }
+}
+
+class CounterContainer extends Component{
+    constructor(props){
+        super(props);
+        this.state = { count : 0 }
+        this.onClickCounting = this.onClickCounting.bind(this);
+    }
+    onClickCounting(){
+        console.log("click")
+        this.setState(prevState => { 
+            return { count : prevState.count+1 }
+        })
+    } 
+    render(){
+        return  <div>
+            <ClickCounter count={this.state.count} onClickCounting={this.onClickCounting} />
+        </div>
+    }
+}
+
+ReactDom.render( <CounterContainer />, document.getElementById('root')); 
