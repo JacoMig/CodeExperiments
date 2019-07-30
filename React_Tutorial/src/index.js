@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import ReactDom from "react-dom";
+import "bootstrap/dist/css/bootstrap.css";
 // import HelloWorld from "./components/HelloWorld";
+
 
 /*
 // ELEMENT. 
@@ -399,7 +401,7 @@ ReactDom.render( <TempCalculator />, document.getElementById('root')); */
 
 // Another Lifting State Up Exercise
 // The main Component CounterContainer handles the click event and pass the props to the child
-class ClickCounter extends Component{
+/* class ClickCounter extends Component{
     constructor(props){
         super(props);
     }
@@ -432,4 +434,48 @@ class CounterContainer extends Component{
     }
 }
 
-ReactDom.render( <CounterContainer />, document.getElementById('root')); 
+ReactDom.render( <CounterContainer />, document.getElementById('root'));  */
+
+
+// setState Exercise
+class FormExercise extends Component{
+    constructor(props){
+        super(props);
+        this.state = { firstName : "", lastName : "" }
+        this.handleChangeName = this.handleChangeName.bind(this);
+    }
+    handleChangeName(e){
+        e.preventDefault();
+        // In Javascript, when you create an object literal {} 
+        // and you wrap the object’s key in array brackets [key] 
+        // you can dynamically set that key.
+        const { name, value  } = e.target;
+        this.setState({ [ name ] : value });
+    }
+    render(){
+        return <div className="Home text-center mt-3">
+            <h3>Set State in React</h3>
+            <h2>by Sto Cazzo</h2>
+            <div className="my-3">
+                <h3>User Info:</h3>
+                <div>First Name: { this.state.firstName }</div>
+                <div>Last Name: { this.state.lastName }</div>
+            </div>
+            <div className="my-3">
+                <h5>Form</h5>
+                <div className="form-group">
+                    <div>
+                        <label for="firstName">First Name:</label>
+                        <input className="ml-2" value={ this.state.firstName } name="firstName" onChange={ this.handleChangeName } />
+                    </div>
+                    <div>
+                        <label for="lastName">Last Name:</label>
+                        <input className="ml-2" value={ this.state.lastName } name="lastName" onChange={ this.handleChangeName } />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+ReactDom.render( <FormExercise />, document.getElementById('root'));
