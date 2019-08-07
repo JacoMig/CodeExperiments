@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ReactDom from "react-dom";
-import "bootstrap/dist/css/bootstrap.css";
+/* import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap-grid.css"; */
 // import HelloWorld from "./components/HelloWorld";
 
 
@@ -82,8 +83,8 @@ ReactDom.render(<App />, document.getElementById('root')); */
         this.state = { date: new Date() };
     }
     componentWillMount(){
-        // We use arrow function because of the this scope.
-        // We need the reference to the class scope
+        // We use arrow function because of "this" scope.
+        // We need the reference to the main class scope
         this.timerId = setInterval( () => {
            this.setState( { date: new Date() } )
         }, 1000) 
@@ -437,40 +438,73 @@ class CounterContainer extends Component{
 ReactDom.render( <CounterContainer />, document.getElementById('root'));  */
 
 
+///////////////////////////////////////////////////////////////////////////
+
 // setState Exercise
-class FormExercise extends Component{
+/* class FormExercise extends Component{
     constructor(props){
         super(props);
-        this.state = { firstName : "", lastName : "" }
-        this.handleChangeName = this.handleChangeName.bind(this);
+        this.state = { 
+            firstName : "", 
+            lastName : "", 
+            count : 0,
+            isValid : false
+        }
+        this.handleChangeForm = this.handleChangeForm.bind(this);
+        this.handleValidateInfo = this.handleValidateInfo.bind(this);
+        this.handleCounter = this.handleCounter.bind(this);
     }
-    handleChangeName(e){
-        e.preventDefault();
-        // In Javascript, when you create an object literal {} 
+    handleChangeForm(e){
+        // In ES6, when you create an object literal {} 
         // and you wrap the object’s key in array brackets [key] 
         // you can dynamically set that key.
+        
+       // const { checked, name, value, type  } = e.target;
         const { name, value  } = e.target;
-        this.setState({ [ name ] : value });
+        // const valueToUpdate = type === 'checkbox' ? checked : value;
+        // [name] : valueToUpdate
+        this.setState({ 
+            [name] : value
+        }, () => this.handleCounter() );
+        
+    }
+    handleCounter(){
+        this.setState({ count : this.state.count+1 });
+    } 
+    handleValidateInfo(e){
+        this.setState({ isValid : !this.state.isValid });
+        this.handleCounter();
     }
     render(){
-        return <div className="Home text-center mt-3">
-            <h3>Set State in React</h3>
-            <h2>by Sto Cazzo</h2>
+        const validateText = this.state.isValid ? "Invalidate" : "Validate"
+        return <div className="Home text-center mt-3 container">
+            <h2>Set State in React</h2>
+            <h3>by Sto Cazzo</h3>
             <div className="my-3">
                 <h3>User Info:</h3>
                 <div>First Name: { this.state.firstName }</div>
                 <div>Last Name: { this.state.lastName }</div>
+                <div>The info is Valid: { this.state.isValid ? 'yes' : 'no' }</div>
+                <div>The state was updated { this.state.count } times</div>
             </div>
             <div className="my-3">
                 <h5>Form</h5>
                 <div className="form-group">
                     <div>
-                        <label for="firstName">First Name:</label>
-                        <input className="ml-2" value={ this.state.firstName } name="firstName" onChange={ this.handleChangeName } />
+                        <label htmlFor="firstName">First Name:</label>
+                        <input className="ml-2" value={ this.state.firstName } name="firstName" onChange={ this.handleChangeForm } />
                     </div>
                     <div>
-                        <label for="lastName">Last Name:</label>
-                        <input className="ml-2" value={ this.state.lastName } name="lastName" onChange={ this.handleChangeName } />
+                        <label htmlFor="lastName">Last Name:</label>
+                        <input className="ml-2" value={ this.state.lastName } name="lastName" onChange={ this.handleChangeForm } />
+                    </div>
+                    <div>
+                        <label>The Info is valid
+                            <input type="checkbox" checked={ this.state.isValid } name="isValid" onChange={ this.handleValidateInfo }/>
+                         </label>   
+                    </div> 
+                    <div>
+                        <button onClick={this.handleValidateInfo} className={ this.state.isValid ? "btn-warning" : "btn-success" }>{validateText}</button>
                     </div>
                 </div>
             </div>
@@ -478,4 +512,107 @@ class FormExercise extends Component{
     }
 }
 
-ReactDom.render( <FormExercise />, document.getElementById('root'));
+ReactDom.render( <FormExercise />, document.getElementById('root')); */
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+// Fragment
+/* import { Fragment } from "react"
+const Temp = () =>{
+    return ( 
+        <Fragment>
+            <div key="1">Hi</div>
+            <div key="2">Hello</div>
+        </Fragment>
+    )
+}
+
+// You can render the same way, wrapping the output inside an array 
+// [
+//    <div key="1">Hi</div>,
+//    <div key="2">Hello</div>
+// ] 
+
+const App = () => {
+    return <div className="App">
+            <Temp />
+        </div>
+} 
+    
+ReactDom.render( <App />, document.getElementById('root') ) */
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+// Component Lifecycle 
+import Child from "./components/child"
+class App extends Component {
+    constructor(){
+        super()
+        this.state = {
+            name: "John"
+        }
+        console.log("constructor") // 1. 
+    }
+    componentWillMount(){ // 2.
+        // you can already set the state, before the component has not been rendered
+        // if you want to do something with global like document or window
+        // This Hook happens on the SERVER SIDE
+        if(window.innerWidth < 500){
+            this.setState({ innerWidth : window.innerWidth }, 
+                () => {console.log(this.state.innerWidth)})
+        }
+        console.log("componentWillMount")
+    }
+    shouldComponentUpdate(nextProps, nextState){ // 3.
+        console.log("shouldComponentUpdate")
+        return true
+    }
+    componentWillUpdate(){ // 4.
+        console.log("componentWillUpdate")
+    }
+    render(){  // 5.
+        console.log("render")
+        if(this.state.name === "Robert"){
+            return <div></div>
+        }else{
+            return <div className="App text-center">
+                <p>Name: {this.state.name}</p>
+                <p>Width: {this.state.innerWidth}</p>
+                <Child name={this.state.name} />
+                <button onClick={() => { this.setState({ name : "Mario" }) } }>Change name</button>
+                <button onClick={() => { this.setState({ name : "Robert" }) } }>Unmount Component</button>
+            </div>
+        }
+    }
+    componentDidUpdate(){ // 6.
+        console.log("componentDidUpdate")
+    }
+    componentWillUnmount(){ // 7.
+        console.log("componentWillUnmount")
+    }
+    componentDidMount(){ // 8.
+        console.log("componentDidMount")
+    }
+}
+
+ReactDom.render( <App />, document.getElementById('root') )
+
+
+
+///////////////////////////////////////////////////////////////////////////
+
+// React and Redux
+// import App from "./App";
+// Provider allows to inject the reducer globally
+/* import { Provider } from "react-redux";
+import { createStore } from "redux";
+import reducer from "./store/reducer";
+
+const store = createStore(reducer);
+
+ReactDom.render(<Provider store={ store }><App /></Provider>, document.getElementById('root'))
+ */
