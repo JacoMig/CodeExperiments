@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import ReactDom from "react-dom";
+
+
 /* import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap-grid.css"; */
 // import HelloWorld from "./components/HelloWorld";
@@ -77,71 +79,31 @@ ReactDom.render(<App />, document.getElementById('root')); */
 
 
 // CLOCK COMPONENT
-/* class Clock extends Component{
-    constructor(props){
-        super(props);
-        this.state = { date: new Date() };
-    }
-    componentWillMount(){
-        // We use arrow function because of "this" scope.
-        // We need the reference to the main class scope
-        this.timerId = setInterval( () => {
-           this.setState( { date: new Date() } )
-        }, 1000) 
-    }
-    componentWillUnmount(){
-        clearInterval(this.timerId);
-    }
-    render(){
-       return <div>
-                <h1>Hello World</h1>
-                <h2>It is { this.state.date.toLocaleTimeString() }</h2>
-            </div>
-    }
+/* 
+import Clock from "./components/Clock";
+const App = () => {
+    return (
+        <Clock />
+    )
 }
 
-ReactDom.render(<Clock />, document.getElementById('root'));
- */
+ReactDom.render( <App />, document.getElementById('root') )   */
+
 
 
 /////////////////////////////////////////////////////////////////////////// 
 
 
 // EVENT HANDLERS
-/*
-class ButtonClickEvent extends Component{
-    constructor(props){
-        super(props);
-        this.state = { isToggledOn : false }
-    }
-    
-    clickEvent(id, e){
-        e.preventDefault();
-        this.setState({ isToggledOn : !this.state.isToggledOn }, () => { 
-            // To use the updated state use the callback of setState 
-            console.log(this.state.isToggledOn);
-         }); 
-         console.log(id)
-    }
-
-    // three ways of binding "this" (refer to the Component) :
-    //  1- <button onClick={this.clickEvent.bind(this)}>
-    //  2- <button onClick={(e) => this.clickEvent(e)}>
-    //  3- in the constructor 
-    //    this.clickEvent = this.clickEvent.bind(this);
-        
-    //    In the arrow function case (2-) makes the component render two times
-    
-    render(){
-        return <button id="myButton" onClick={this.clickEvent.bind(this, "myID")}>
-            { this.state.isToggledOn ? "Off" : "On" }
-        </button>
-    }
-
+/* 
+import EventHandler from "./components/EventHandler";
+const App = () => {
+    return (
+        <EventHandler />
+    )
 }
-
-ReactDom.render(<ButtonClickEvent />, document.getElementById('root'));
-*/
+ReactDom.render(<App />, document.getElementById('root')); 
+ */
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -264,7 +226,7 @@ ReactDom.render( <Blog posts={posts}/>, document.getElementById('root')); */
  // INPUT, TEXTAREA and SELECT Tag all works very simliar in React
  // We create 2 methods
  // 1. Update the initial state and 2. We submit the form.
- // IMPORTANT setState is a method so you have to call it setState({ property : value })
+ // IMPORTANT setState is a method so you have to call it setState({ key : value })
  /* class Form extends Component{
     constructor(props){
         super(props);
@@ -518,9 +480,9 @@ ReactDom.render( <FormExercise />, document.getElementById('root')); */
 ///////////////////////////////////////////////////////////////////////////
 
 
-// Fragment
+// FRAGMENT
 /* import { Fragment } from "react"
-const Temp = () =>{
+    const Temp = () =>{
     return ( 
         <Fragment>
             <div key="1">Hi</div>
@@ -547,8 +509,8 @@ ReactDom.render( <App />, document.getElementById('root') ) */
 ///////////////////////////////////////////////////////////////////////////
 
 
-// Component Lifecycle 
-import Child from "./components/child"
+// COMPONENT LIFECYCLE
+/* import Child from "./components/child"
 class App extends Component {
     constructor(){
         super()
@@ -599,13 +561,26 @@ class App extends Component {
     }
 }
 
-ReactDom.render( <App />, document.getElementById('root') )
+ReactDom.render( <App />, document.getElementById('root') ) */
 
+///////////////////////////////////////////////////////////////////////////
+
+
+// REFS & DOM
+/* import RefsChildComponent from "./components/RefsChildComponent"
+
+const App = () => {
+    return (
+        <RefsChildComponent />
+    )
+}
+
+ReactDom.render( <App />, document.getElementById('root') ) */
 
 
 ///////////////////////////////////////////////////////////////////////////
 
-// React and Redux
+// REACT & REDUX
 // import App from "./App";
 // Provider allows to inject the reducer globally
 /* import { Provider } from "react-redux";

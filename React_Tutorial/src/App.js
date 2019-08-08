@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import {connect} from "react-redux";
 
+// Redux React - little example
+
 class App extends Component{
   /* constructor(props){
     super(props);
