@@ -1,24 +1,22 @@
 import React, { Component } from 'react'
 
-const checkers = [] 
-
+let checkers = [] 
+let completed = []
+let isMatch = false
 const images = {
     angular: "img/angular.png",
-    css: "https://github.com/chiquyet199/memory-game/blob/master/src/assets/images/css.png",
-    go: "https://github.com/chiquyet199/memory-game/blob/master/src/assets/images/go.png",
-    html: "https://github.com/chiquyet199/memory-game/blob/master/src/assets/images/html.png",
-    rail: "https://github.com/chiquyet199/memory-game/blob/master/src/assets/images/rail.png",
-    react: "https://github.com/chiquyet199/memory-game/blob/master/src/assets/images/react.png",
-    scala: "https://github.com/chiquyet199/memory-game/blob/master/src/assets/images/scala.png",
-    vue: "https://github.com/chiquyet199/memory-game/blob/master/src/assets/images/vue.png"
+    css: "img/css.png",
+    go: "img/go.png",
+    html: "img/html.png",
+    rail: "img/rail.png",
+    react: "img/react.png",
+    scala: "img/scala.png",
+    vue: "img/vue.png"
 }
 
 const buildCards = () => {
     const Cards = [];
     let id = 0;
-  /*   const hello = Object.entries(images).reduce((acc, curr) => {
-        return acc.concat([curr, curr])
-    }, [] ) */
 
     const duplicateCards = (images) => {
         for(var name in images){
@@ -38,21 +36,18 @@ const buildCards = () => {
     duplicateCards(images)
     duplicateCards(images)
    
-    
+    Cards.sort(() =>  Math.random() - 0.5 )
+
     return Cards;
 }
 
 const RenderCards = (props) => {
     const { front_img, back_img, flipped, id, type } = props.card
-    const img_src = flipped ? front_img : back_img; 
-    
-   /*  const  clickHandler = (e) => {
-        console.log(e.target.parentNode.id)
-    } */
-    
-    return <div className="Card" data-type={type} id={id} key={id} onClick={props.clickHandler} >
-        <img src={img_src} />
-    </div>
+    const img_src = flipped ? front_img : back_img;
+     
+    return <div className="Card" data-flipped={flipped} data-type={type} id={id} key={id} onClick={props.clickHandler} >
+                <img src={img_src} />
+            </div>
 }
 
 class App extends Component{
@@ -63,21 +58,66 @@ class App extends Component{
         })
     }
     
+    
     clickHandler(e){
         e.preventDefault()
-        const clickedImgId = e.target.parentNode.id
-        const result = this.state.Cards.filter( card => card.id === parseInt(clickedImgId) )
-        checkers.push(result[0])
-        if(checkers.length > 1){
-            checkers.reduce((acc, curr) => {
-                console.log(acc.type === curr.type)
-            })
+        const Cards = this.state.Cards;
+        const Id = e.target.parentNode.id;
+        let newCards = Cards;
+        const currentCard = newCards.find( (el) => el.id == Id );
+        
+        if(checkersFull(checkers) || cardAlreadyMatched(Cards, completed) ) return
+        
+        console.log("init click handler")
+       
+        currentCard.flipped = true
+        checkers.push(currentCard);
+        this.setState({ Cards: newCards }) 
+        
+        if(validateCheckers(checkers)){
+            isMatch = true
+            if(!cardAlreadyMatched(Cards, completed))
+                completed.push(checkers[0].type)
+        }else{
+            isMatch = false
         }
+
+        function checkersFull(checkers){
+            return checkers.length === 2
+        }
+
+        function validateCheckers(checkers){
+            return checkers.length === 2 && checkers[0].type === checkers[1].type
+        }
+
+        function cardAlreadyMatched(cards, completed){
+            return completed.includes(currentCard.type)
+        }  
+
+       
+        if(checkers.length >= 2){
+            checkers = []
+        }
+        
+        setTimeout( () => {
+            if(!isMatch){
+                currentCard.flipped = false;
+                this.setState({ Cards: newCards });
+                checkers = []
+            }
+        }, 1000 )   
+        
+
+        console.log("Is Match: "+isMatch)
+
     }
+
     render(){
-        return <div>
-            { this.state.Cards.map((card) => <RenderCards card={card} clickHandler={this.clickHandler.bind(this)} />) }    
-        </div>
+        return (
+            <div>
+                { this.state.Cards.map((card) => <RenderCards key={card.id}  card={card} clickHandler={this.clickHandler.bind(this)} />) }    
+            </div>
+        )
     }
 }
 
