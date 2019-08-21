@@ -66,7 +66,7 @@ class App extends Component{
         let newCards = Cards;
         const currentCard = newCards.find( (el) => el.id == Id );
         
-        if(checkersFull(checkers) || cardAlreadyMatched(Cards, completed) ) return
+        if(checkersFull(checkers) || cardAlreadyMatched(currentCard, completed) ) return
         
         console.log("init click handler")
        
@@ -76,7 +76,7 @@ class App extends Component{
         
         if(validateCheckers(checkers)){
             isMatch = true
-            if(!cardAlreadyMatched(Cards, completed))
+            if(!cardAlreadyMatched(currentCard, completed))
                 completed.push(checkers[0].type)
         }else{
             isMatch = false
@@ -90,7 +90,7 @@ class App extends Component{
             return checkers.length === 2 && checkers[0].type === checkers[1].type
         }
 
-        function cardAlreadyMatched(cards, completed){
+        function cardAlreadyMatched(currentCard, completed){
             return completed.includes(currentCard.type)
         }  
 
