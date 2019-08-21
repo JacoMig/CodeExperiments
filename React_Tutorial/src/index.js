@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDom from "react-dom";
+import { runInThisContext } from "vm";
 
 
 /* import "bootstrap/dist/css/bootstrap.css";
@@ -576,6 +577,41 @@ const App = () => {
 }
 
 ReactDom.render( <App />, document.getElementById('root') ) */
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+// HOOKS
+// useState is a component variable like this.state
+// useEffect works like ComponentDidMount, ComponentDidUpdate, ComponentWillUnmount
+/* so in example below will call at the beginning when ComponentDidMount and each time
+the component is rerendered (ComponentDidUpdate) */
+import {useState, useEffect} from 'react';
+
+function App(){
+    const [count, setCount] = useState(0)
+    const [name, setName] = useState('Marco') 
+
+    useEffect( () => {
+        document.title = 'you clicked '+count+'times';
+        console.log('useEffect')
+    }, [count] )
+    
+    return (<div>
+            <p>you clicked {count} times</p>
+            <button onClick={() => { setCount(count + 1) } }>Click</button>
+            <p>You name is: {name}</p>
+            <input onChange={ (e) => { setName(e.target.value) } } />
+        </div>
+    )
+}
+
+ReactDom.render( <App />, document.getElementById('root') ) 
+
+
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////
