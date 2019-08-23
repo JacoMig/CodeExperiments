@@ -595,9 +595,13 @@ function App(){
 
     useEffect( () => {
         document.title = 'you clicked '+count+'times';
-        console.log('useEffect')
+        
+        console.log('Component Did Mount')
+        return () => {
+            console.log('Component Will UnMount')
+        }
     }, [count] )
-    
+    console.log('Component Render')
     return (<div>
             <p>you clicked {count} times</p>
             <button onClick={() => { setCount(count + 1) } }>Click</button>
