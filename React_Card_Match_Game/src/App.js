@@ -1,4 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+import ReactCardFlip from 'react-card-flip'
+import Timer from './components/Timer'
+import GridCards from './components/GridCards'
 
 let checkers = [] 
 let completed = []
@@ -27,8 +30,8 @@ const buildCards = () => {
             Cards.push(
                 {
                     id: id,
-                    front_img: imageurl,
-                    back_img: 'img/back.png',
+                    back_img: imageurl,
+                    front_img: 'img/back.png',
                     flipped: false,
                     type: name
                 }
@@ -45,12 +48,26 @@ const buildCards = () => {
 
 
 
-const RenderCards = (props) => {
-    const { front_img, back_img, flipped, id, type } = props.card
-    const img_src = flipped ? front_img : back_img;
-    return <div className="Card" data-flipped={flipped} data-type={type} id={id} key={id} onClick={props.clickHandler} >
-                <img src={img_src} />
-            </div>
+const RenderCard = (props) => {
+    const { front_img, back_img, id, type } = props.card
+    return <ReactCardFlip   isFlipped={props.flipped} flipDirection="horizontal">
+        <div 
+            className="Card back" 
+            data-type={type} 
+            id={id} 
+            key="back" 
+            onClick={(e) => { props.clickHandler(e) }} >
+            <img src={back_img} />
+        </div>
+        <div 
+            className="Card front" 
+            data-type={type} 
+            id={id} 
+            key="front" 
+            onClick={(e) => { props.clickHandler(e) }} >
+            <img src={front_img} />
+        </div>
+    </ReactCardFlip>
 }
 
 class App extends Component{
@@ -58,8 +75,7 @@ class App extends Component{
     constructor(props){
         super(props)
         this.state = ({
-            Cards: buildCards(),
-            timer: { min: 2, sec: 60 }
+            Cards: buildCards()
         })
     }
     
@@ -67,21 +83,6 @@ class App extends Component{
         isMounted = true
         completed = []
         isMatch = false
-
-        var countDown = setInterval( () => {
-            if(isMounted){
-                if( this.state.timer.min > 0 && this.state.timer.sec === 1)
-                    this.setState({timer : { min: this.state.timer.min-=1 , sec: 60 } })
-                else    
-                    this.setState({timer : { min: this.state.timer.min,  sec: this.state.timer.sec-=1 } })
-                if( (this.state.timer.min === 0 && this.state.timer.sec === 0) ){
-                    this.props.ReStart()
-                    isMounted = false
-                }
-            }else{
-                clearInterval(countDown)
-            }
-        }, 1000)
     }
 
     componentWillUnmount(){
@@ -152,12 +153,16 @@ class App extends Component{
 
     render(){
         return (
-            <div>
-                <div className="timer">{this.state.timer.min}:{this.state.timer.sec}</div>
-                <div className="gridCards">
-                { this.state.Cards.map((card) => <RenderCards key={card.id}  card={card} clickHandler={this.clickHandler.bind(this)} />) }    
-                </div>
-            </div>
+            <Fragment>
+                <Timer ReStart={this.props.ReStart}></Timer>
+                <GridCards>
+                { this.state.Cards.map((card) => <RenderCard 
+                                                    key={card.id} 
+                                                    flipped={card.flipped} 
+                                                    card={card} 
+                                                    clickHandler={this.clickHandler.bind(this)} />) }    
+                </GridCards>
+            </Fragment>
         )
        
     }
