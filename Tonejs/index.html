@@ -5,28 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ToneJs</title>
+    <style>
+        .lights{
+            display: flex;
+            justify-content: space-between
+        }
+        .lights > div{ 
+            border-radius: 5px;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border: 1px solid black;
+        }
+        .lights > div.on{
+            background: red;
+        }
+        #Sequencer{
+            display: flex;
+            justify-content: space-between
+        }
+        .hidden{
+            display: none
+        }
+    </style>
 </head>
 <body>
     <button id='play'>Play</button>
     <button id='stop'>Stop</button>
-    <input type="range" min="1" max="250" value="5" class="slider" id="Slider">
-    <div class="Sequencer">
-        <input type="checkbox" name="step" id="step-1">
-        <input type="checkbox" name="step" id="step-2">
-        <input type="checkbox" name="step" id="step-3">
-        <input type="checkbox" name="step" id="step-4">
-        <input type="checkbox" name="step" id="step-5">
-        <input type="checkbox" name="step" id="step-6">
-        <input type="checkbox" name="step" id="step-7">
-        <input type="checkbox" name="step" id="step-8">
-        <input type="checkbox" name="step" id="step-9">
-        <input type="checkbox" name="step" id="step-10">
-        <input type="checkbox" name="step" id="step-11">
-        <input type="checkbox" name="step" id="step-12">
-        <input type="checkbox" name="step" id="step-13">
-        <input type="checkbox" name="step" id="step-14">
-        <input type="checkbox" name="step" id="step-15">
-        <input type="checkbox" name="step" id="step-16">
+    <input type="range" min="60" max="250" value="120" class="slider" id="Slider">
+    <div class="instruments">
+        <a href="#" data-type="kick">Kick</a>
+        <a href="#" data-type="hihat">Hihat</a>
+    </div>
+    <div class='lights'>
+        <div id='light-1'></div>
+        <div id='light-2'></div>
+        <div id='light-3'></div>
+        <div id='light-4'></div>
+        <div id='light-5'></div>
+        <div id='light-6'></div>
+        <div id='light-7'></div>
+        <div id='light-8'></div>
+        <div id='light-9'></div>
+        <div id='light-10'></div>
+        <div id='light-11'></div>
+        <div id='light-12'></div>
+        <div id='light-13'></div>
+        <div id='light-14'></div>
+        <div id='light-15'></div>
+        <div id='light-16'></div>
+    </div>
+    <div id="Sequencer">
+        <div class="kick">
+            <input type="checkbox" name="step" id="step-1">
+            <input type="checkbox" name="step" id="step-2">
+            <input type="checkbox" name="step" id="step-3">
+            <input type="checkbox" name="step" id="step-4">
+            <input type="checkbox" name="step" id="step-5">
+            <input type="checkbox" name="step" id="step-6">
+            <input type="checkbox" name="step" id="step-7">
+            <input type="checkbox" name="step" id="step-8">
+            <input type="checkbox" name="step" id="step-9">
+            <input type="checkbox" name="step" id="step-10">
+            <input type="checkbox" name="step" id="step-11">
+            <input type="checkbox" name="step" id="step-12">
+            <input type="checkbox" name="step" id="step-13">
+            <input type="checkbox" name="step" id="step-14">
+            <input type="checkbox" name="step" id="step-15">
+            <input type="checkbox" name="step" id="step-16">
+        </div>
+        <div class="hihat hidden">
+            <input type="checkbox" name="step" id="step-1">
+            <input type="checkbox" name="step" id="step-2">
+            <input type="checkbox" name="step" id="step-3">
+            <input type="checkbox" name="step" id="step-4">
+            <input type="checkbox" name="step" id="step-5">
+            <input type="checkbox" name="step" id="step-6">
+            <input type="checkbox" name="step" id="step-7">
+            <input type="checkbox" name="step" id="step-8">
+            <input type="checkbox" name="step" id="step-9">
+            <input type="checkbox" name="step" id="step-10">
+            <input type="checkbox" name="step" id="step-11">
+            <input type="checkbox" name="step" id="step-12">
+            <input type="checkbox" name="step" id="step-13">
+            <input type="checkbox" name="step" id="step-14">
+            <input type="checkbox" name="step" id="step-15">
+            <input type="checkbox" name="step" id="step-16">
+        </div>
     </div>
     <script src="https://unpkg.com/tone@13.8.25/build/Tone.js"></script>
     <script src="scripts.js"></script>
