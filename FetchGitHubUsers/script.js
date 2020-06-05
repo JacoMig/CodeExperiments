@@ -36,7 +36,7 @@ async function showUsers(){
 		arrayOfUsers = await results
 		
 	}else{
-		const response = await fetch(`https://api.github.com/users/${inputSingle.value}?access_token=${token}`)
+		const response = await fetch(`https://api.github.com/users/${inputSingle.value}`)
 					.then(resp => resp.json())
 					.then(data => { 
 						if(data.login === undefined)
